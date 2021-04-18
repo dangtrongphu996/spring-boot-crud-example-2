@@ -20,12 +20,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.javatechie.crud.example.entity.BillDetail;
+import com.javatechie.crud.example.entity.Bills;
 import com.javatechie.crud.example.entity.Cart;
 import com.javatechie.crud.example.entity.CartInfo;
 import com.javatechie.crud.example.entity.CartLineInfo;
 import com.javatechie.crud.example.entity.Products;
 import com.javatechie.crud.example.entity.Utils;
 import com.javatechie.crud.example.repository.BillDetailRepository;
+import com.javatechie.crud.example.repository.BillsRepository;
 import com.javatechie.crud.example.service.ProductsService;
 
 @Controller
@@ -37,6 +39,9 @@ public class CartController extends BaseController{
 	
 	@Autowired 
 	private BillDetailRepository billDetailRepository; 
+	
+	@Autowired 
+	private BillsRepository billsRepository; 
 	
 	@RequestMapping(value = "add/{id}", method = RequestMethod.GET)
     public String viewAdd(ModelMap mm, HttpSession session, @PathVariable("id") Integer id) {
@@ -118,6 +123,7 @@ public class CartController extends BaseController{
         model.addAttribute("cartForm", myCart);
         return "checkout1";
     }
+    
     // POST: Gửi đơn hàng (Save).
     @RequestMapping(value = { "/shoppingCartConfirmation" }, method = RequestMethod.GET)
     public String shoppingCartConfirmationSave(HttpServletRequest request,HttpSession session, Model model) {
@@ -130,10 +136,11 @@ public class CartController extends BaseController{
         int i = 0;
         List<CartLineInfo> cartLines = new ArrayList<CartLineInfo>();
         try {
-        	
+        	Bills bills = new Bills(i, new java.util.Date(),(float)cartInfo.getAmountTotal() , "Tiền mặt", "không có");
+        	billsRepository.save(bills);
         	cartLines = cartInfo.getCartLines();
         	for (CartLineInfo cartLineInfo : cartLines) {
-        		BillDetail billDetail = new BillDetail(i, i, cartLineInfo.getProducts().getId(), cartLineInfo.getQuantity(),cartLineInfo.getProducts().getUnit_price());
+        		BillDetail billDetail = new BillDetail(i, bills.getId(), cartLineInfo.getProducts().getId(), cartLineInfo.getQuantity(),cartLineInfo.getProducts().getUnit_price());
             	billDetailRepository.save(billDetail);
             	i++;
 			}
