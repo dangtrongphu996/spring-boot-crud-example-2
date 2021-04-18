@@ -64,4 +64,6 @@ public interface ProductsService {
 	Products save(Products entity);
 
 	List<Products> findByProductType(Integer idType);
+
+	List<Products> getListNewProduct();
 }

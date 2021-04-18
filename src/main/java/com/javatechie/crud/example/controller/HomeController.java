@@ -51,10 +51,22 @@ public class HomeController extends BaseController{
 		List<Slide> listSlide = new ArrayList<Slide>();
 		listSlide = slideService.findAll();
 		
+		List<Products> listNewProduct = new ArrayList<Products>();
+		listNewProduct = productsService.getListNewProduct();
+		model.addAttribute("listNewProduct",listNewProduct);
 		
-		model.addAttribute("listSlide",listSlide);
 		//model.addAttribute("listProductType",_mvShare.getAttribute("listProductType"));
         return "index";
+    }
+	
+	@GetMapping("/gioithieu")
+    public String viewAboutPage() {
+        return "gioithieu";
+    }
+	
+	@GetMapping("/contact")
+    public String viewContactsPage() {
+        return "contact";
     }
 	
 	@GetMapping("/productType/{idType}")

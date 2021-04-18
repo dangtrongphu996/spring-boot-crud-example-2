@@ -13,4 +13,7 @@ public interface ProductsRepository extends JpaRepository<Products,Integer> {
     
 	@Query("SELECT p FROM products p WHERE p.productType.id = ?1")
 	List<Products> findByProductType(Integer idType);
+
+	@Query("SELECT p FROM products p WHERE p.news = '1'")
+	List<Products> getListNewProduct();
 }
