@@ -1,0 +1,102 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layouts/main-layout :: main-fragment(  
+                                                ~{::title},
+                                                ~{:: #header},
+                                                ~{:: #home-nav},
+                                                ~{:: #mainContent},  
+                                                ~{:: #footer}
+                                               )}">
+<head>
+    <title>Đặt hàng</title> 
+</head>
+<body>
+<div id="header">
+	<div th:replace="fragments/header :: header"></div>
+</div>
+<div id="mainContent">
+<div class="container">
+		<div id="content">
+			<form class="shipping_calculator pull-left" method="POST" th:object="${cartForm}" th:action="@{/cart/shoppingCart}">
+			<div class="table-responsive">
+				<!-- Shop Products Table -->
+				<table class="shop_table beta-shopping-cart-table" cellspacing="0">
+					<thead>
+						<tr>
+							<th class="product-name">Product</th>
+							<th class="product-price">Price</th>
+							<th class="product-quantity">Qty.</th>
+							<th class="product-quantity">Update</th>
+							<th class="product-subtotal">Total</th>
+							<th class="product-remove">Remove</th>
+						</tr>
+					</thead>
+					<tbody>
+					
+						<tr class="cart_item" th:each="cartLineInfo, varStatus: ${cartForm.cartLines}">
+							<td class="product-name">
+								<div class="media">
+									<img class="pull-left" src="assets/dest/images/shoping1.jpg" alt="">
+									<div class="media-body">
+										<p class="font-large table-title" th:text="${cartLineInfo.products.name}"></p>
+										
+									</div>
+								</div>
+							</td>
+
+							<td class="product-price">
+								<span class="amount" th:text="'$'+${cartLineInfo.products.unit_price}"></span>
+							</td>
+
+							
+
+							<td class="product-quantity">
+								<input type="hidden" th:name="|cartLines[${varStatus.index}].products.id|" th:value="${cartLineInfo.products.id}" />
+								<input th:name="|cartLines[${varStatus.index}].quantity|" th:value="${cartLineInfo.quantity}" />
+							</td>
+							<td class="product-quantity">
+								<button type="submit" name="calc_shipping" value="1" class="beta-btn primary pull-right">Update</button>
+							</td>
+							<td class="product-subtotal">
+								<span class="amount" th:text="${cartLineInfo.quantity*cartLineInfo.products.unit_price}"></span>
+							</td>
+
+							<td class="product-remove">
+								<a th:href="@{/cart/removeCart/{image}(image=${cartLineInfo.products.id})}"  class="remove" title="Remove this item"><i class="fa fa-trash-o"></i></a>
+							</td>
+						</tr>
+						
+						
+					</tbody>
+
+					
+				</table>
+				<!-- End of Shop Table Products -->
+			</div>
+
+
+			<!-- Cart Collaterals -->
+			<div class="cart-collaterals">
+				<div class="cart-totals pull-right">
+					<div class="cart-totals-row"><h5 class="cart-total-title">Cart Totals</h5></div>
+					<div class="cart-totals-row"><span>Số sản phẩm:</span> <span th:text="${cartForm.getQuantityTotal()}"></span></div>
+
+					<div class="cart-totals-row"><span>Tổng tiền:</span> <span th:text="${cartForm.getAmountTotal()}"></span></div>
+					<a th:href="@{/cart/shoppingCartConfirmation}"><button type="button" name="calc_shipping" value="1" class="beta-btn primary pull-right">Đặt hàng</button></a>
+					
+				</div>
+				
+				<div class="clearfix"></div>
+			</div>
+			<!-- End of Cart Collaterals -->
+			<div class="clearfix"></div>
+		</form>
+		</div> <!-- #content -->
+	</div> <!-- .container -->
+
+</div>
+<div id="footer">
+<div th:replace="fragments/footer :: footer"></div>
+</div>
+</body>
+</html>

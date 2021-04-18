@@ -1,0 +1,198 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layouts/main-layout :: main-fragment(  
+                                                ~{::title},
+                                                ~{:: #header},
+                                                ~{:: #home-nav},
+                                                ~{:: #mainContent},  
+                                                ~{:: #footer}
+                                               )}">
+<head>
+    <title>Sản phẩm</title> 
+</head>
+<body>
+<div id="header">
+	<div th:replace="fragments/header :: header"></div>
+</div>
+<div id="mainContent">
+<div class="container">
+		<div id="content">
+			<div class="row">
+				<div class="col-sm-9">
+
+					<div class="row">
+						<div class="col-sm-4">
+							<img th:src="@{/image/product/{image}(image=${product.image})}" alt="">
+						</div>
+						<div class="col-sm-8">
+							<div class="single-item-body">
+								<p class="single-item-title" th:text="${product.name}"></p>
+								<p class="single-item-price">
+									<span th:text="'$'+${product.unit_price}" th:class="${product.promotion_price!=0} ? 'flash-del':'flash-sale'"></span>
+									<span th:if="${product.promotion_price != 0}" th:text="'$'+${product.promotion_price}" th:class="${product.promotion_price==0} ? 'flash-del':'flash-sale'"></span>
+								</p>
+							</div>
+
+							<div class="clearfix"></div>
+							<div class="space20">&nbsp;</div>
+
+							<div class="single-item-desc">
+								<p th:text="${product.description}"></p>
+							</div>
+							<div class="space20">&nbsp;</div>
+
+							<p>Options:</p>
+							<div class="single-item-options">
+								<select class="wc-select" name="size">
+									<option>Size</option>
+									<option value="XS">XS</option>
+									<option value="S">S</option>
+									<option value="M">M</option>
+									<option value="L">L</option>
+									<option value="XL">XL</option>
+								</select>
+								<select class="wc-select" name="color">
+									<option>Color</option>
+									<option value="Red">Red</option>
+									<option value="Green">Green</option>
+									<option value="Yellow">Yellow</option>
+									<option value="Black">Black</option>
+									<option value="White">White</option>
+								</select>
+								<select class="wc-select" name="color">
+									<option>Qty</option>
+									<option value="1">1</option>
+									<option value="2">2</option>
+									<option value="3">3</option>
+									<option value="4">4</option>
+									<option value="5">5</option>
+								</select>
+								<a class="add-to-cart" th:href="@{/cart/buy/{id}(id=${product.id})}"><i class="fa fa-shopping-cart"></i></a>
+								<div class="clearfix"></div>
+							</div>
+						</div>
+					</div>
+
+					<div class="space40">&nbsp;</div>
+					<div class="woocommerce-tabs">
+						<ul class="tabs">
+							<li><a href="#tab-description">Description</a></li>
+							
+						</ul>
+
+						<div class="panel" id="tab-description">
+							
+							<p th:text="${product.description}"></p>
+						</div>
+						
+					</div>
+					<div class="space50">&nbsp;</div>
+					<div class="beta-products-list">
+						<h4>Sản phẩm cùng loại</h4>
+
+						<div class="row">
+							<div class="col-sm-4" th:each="productType2 : ${listProductByType}" style="height: 370px;">
+								<div class="single-item">
+									<div class="ribbon-wrapper"><div class="ribbon sale" th:if="${productType2.promotion_price != 0}" th:text="Sale"></div></div>
+
+									<div class="single-item-header">
+										<a th:href="@{/product/{id}(id=${productType2.id})}"><img th:src="@{/image/product/{image}(image=${productType2.image})}" style="height:250px; " alt=""></a>
+									</div>
+									<div class="single-item-body">
+										<p class="single-item-title" th:text="${productType2.name}"></p>
+										<p class="single-item-price">
+											<span th:text="'$'+${productType2.unit_price}" th:class="${productType2.promotion_price!=0} ? 'flash-del':'flash-sale'"></span>
+											<span th:if="${productType2.promotion_price != 0}" th:text="'$'+${productType2.promotion_price}" th:class="${productType2.promotion_price==0} ? 'flash-del':'flash-sale'"></span>
+										</p>
+									</div>
+									<div class="single-item-caption">
+										<a class="add-to-cart pull-left" href="#"><i class="fa fa-shopping-cart"></i></a>
+										<a class="beta-btn primary" th:href="@{/product/{id}(id=${productType2.id})}">Details <i class="fa fa-chevron-right"></i></a>
+										<div class="clearfix"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div> <!-- .beta-products-list -->
+				</div>
+				<div class="col-sm-3 aside">
+					<div class="widget">
+						<h3 class="widget-title">Best Sellers</h3>
+						<div class="widget-body">
+							<div class="beta-sales beta-lists">
+								<div class="media beta-sales-item">
+									<a class="pull-left" href="product.html"><img src="/assets/dest/images/products/sales/1.png" alt=""></a>
+									<div class="media-body">
+										Sample Woman Top
+										<span class="beta-sales-price">$34.55</span>
+									</div>
+								</div>
+								<div class="media beta-sales-item">
+									<a class="pull-left" href="product.html"><img src="/assets/dest/images/products/sales/2.png" alt=""></a>
+									<div class="media-body">
+										Sample Woman Top
+										<span class="beta-sales-price">$34.55</span>
+									</div>
+								</div>
+								<div class="media beta-sales-item">
+									<a class="pull-left" href="product.html"><img src="/assets/dest/images/products/sales/3.png" alt=""></a>
+									<div class="media-body">
+										Sample Woman Top
+										<span class="beta-sales-price">$34.55</span>
+									</div>
+								</div>
+								<div class="media beta-sales-item">
+									<a class="pull-left" href="product.html"><img src="/assets/dest/images/products/sales/4.png" alt=""></a>
+									<div class="media-body">
+										Sample Woman Top
+										<span class="beta-sales-price">$34.55</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div> <!-- best sellers widget -->
+					<div class="widget">
+						<h3 class="widget-title">New Products</h3>
+						<div class="widget-body">
+							<div class="beta-sales beta-lists">
+								<div class="media beta-sales-item">
+									<a class="pull-left" href="product.html"><img src="/assets/dest/images/products/sales/1.png" alt=""></a>
+									<div class="media-body">
+										Sample Woman Top
+										<span class="beta-sales-price">$34.55</span>
+									</div>
+								</div>
+								<div class="media beta-sales-item">
+									<a class="pull-left" href="product.html"><img src="/assets/dest/images/products/sales/2.png" alt=""></a>
+									<div class="media-body">
+										Sample Woman Top
+										<span class="beta-sales-price">$34.55</span>
+									</div>
+								</div>
+								<div class="media beta-sales-item">
+									<a class="pull-left" href="product.html"><img src="/assets/dest/images/products/sales/3.png" alt=""></a>
+									<div class="media-body">
+										Sample Woman Top
+										<span class="beta-sales-price">$34.55</span>
+									</div>
+								</div>
+								<div class="media beta-sales-item">
+									<a class="pull-left" href="product.html"><img src="/assets/dest/images/products/sales/4.png" alt=""></a>
+									<div class="media-body">
+										Sample Woman Top
+										<span class="beta-sales-price">$34.55</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div> <!-- best sellers widget -->
+				</div>
+			</div>
+		</div> <!-- #content -->
+	</div> <!-- .container -->
+</div>
+<div id="footer">
+<div th:replace="fragments/footer :: footer"></div>
+</div>
+</body>
+</html>

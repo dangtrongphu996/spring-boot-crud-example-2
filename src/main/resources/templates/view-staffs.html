@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>JSP Page</title>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+	<div class="container">
+		<h2>LIST STAFFS</h2>
+		<p>
+			<a class="btn btn-primary" th:href="@{/staff/addStaff}">ADD STAFF</a>
+		</p>
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th>Photo</th>
+					<th>ID Staff</th>
+					<th>Name</th>
+					<th>Birthday</th>
+					<th>Phone</th>
+					<th>Salary</th>
+					<th>Depart</th>
+					<th>Gender</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="item : ${listStaffs}">
+					<td width="100"><img alt="" th:src="@{/image/{id}(id=${item.photo})}" width="80" height="70"></td>
+					<td th:text="${item.id}"></td>
+					<td th:text="${item.name}"></td>
+					<td th:text="${item.birthday}"></td>
+					<td th:text="${item.phone}"></td>
+					<td th:text="${#numbers.formatDecimal(item.salary,0,'COMMA', 0, 'POINT')}"></td>
+					<td th:text="${item.departs.name}"></td>
+					<td th:if="${item.gender=='1'}" th:text="Nam"></td>
+					<td th:if="${item.gender!='1'}" th:text="Nữ"></td>
+					<td><a class="btn btn-primary btn-sm"
+						th:href="@{/staff/editStaff/{id}(id=${item.id})}">Edit</a> | <a
+						class="btn btn-danger btn-sm" th:href="@{/staff/delStaff/{id}(id=${item.id})}">Del</a></td>
+				</tr>
+				
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>
